@@ -1,0 +1,162 @@
+use cadastro;
+desc gafanhotos;
+select  g.nome, c.nome, c.ano from  gafanhotos as g  left outer join cursos as c
+on c.idcurso = g.cursopreferido;
+
+select  * from  cursos;
+
+use	cadastro;
+desc gafanhotos;
+alter table curso
+add unique(nome);
+insert into curso values
+('1','html4','curso de html5', '40','37','2014'),
+('2','algoritimos','logica de programação','20','15','2014'),
+('3','photoshop','dicas de photoshop cc','10','8','2014'),
+('4','PGP','curso de php para iniciantes','40','20',2010),
+('5','jarva','introdução a linguagem java','10','29','2000'),
+('6','Mysql','banco de dados em mysql','30','15','2016'),
+('7','Word','curso completo de word','40','30','2016'),
+('8','sapateado','danças ritmicas','40','30','2018'),
+('9','cozinha arabe','aprenda a fazer kibe','40','30','2018'),
+('10','youtuber','gerar polemica e ganhar inscritos','5','2','2018');
+
+drop table curso;
+truncate table gafanhotos;
+ drop database cadastro;	
+
+#1
+select nome from gafanhotos
+where sexo = 'F';
+
+#2
+select * from gafanhotos
+where nascimento between '2000-01-01' and '2011-12-31';
+
+#3
+select nome from gafanhotos
+where profissao = 'Programador' and sexo =  'M';
+
+#4
+select * from gafanhotos
+where sexo = 'F' and nacionalidade = 'Brasil' and nome like 'J%';
+
+#5
+select nome, nacionalidade from gafanhotos
+where sexo = 'M' and nacionalidade != 'Brasil' and peso<'100';
+
+#6
+select max(altura) from gafanhotos
+where nacionalidade = 'Brasil' and sexo = 'M';
+
+#7
+select avg(peso) from gafanhotos;
+
+#8
+select min(peso) from gafanhotos
+where sexo = 'F' and nacionalidade != 'Brasil' and nascimento between '1990-01-01' and '2000-12-31';
+
+#9
+select count(nome) from gafanhotos
+where altura > '1.90';
+
+#1
+select profissao, count(profissao) from gafanhotos
+group by profissao
+order by profissao;
+
+#2
+select sexo, count(*)  from gafanhotos
+where nascimento > '2005-01-01'
+group by sexo;
+
+#3
+select nacionalidade, count(*) from gafanhotos
+where nacionalidade != 'Brasil'
+group by nacionalidade
+having count(*)>3;
+
+#4
+select avg(altura) from gafanhotos;
+
+select * from gafanhotos 
+where peso >'100' 
+group by  altura 
+having altura > (select avg(altura) from gafanhotos);
+
+
+
+alter table gafanhotos 
+add column cursopreferido int;
+
+alter table gafanhotos
+add foreign key(cursopreferido)
+references	cursos(idcurso);
+
+update gafanhotos set cursopreferido = '8' where id = '1';
+
+create table gassistec(
+ id int not Null auto_increment,
+ data date,
+ id_gafanhoto int,
+ id_curso int,
+primary key (id),
+foreign key(id_gafanhoto) references gafanhotos(id),
+foreign key (id_curso) references cursos(idcurso) ) default charset= utf8;
+select * from  gassistec;
+
+insert into gassistec values
+(default, '2014-03-01','1','2');
+select g.id,g.nome, c.nome from gafanhotos as g 
+join gassistec as a
+on g.id = a.id_gafanhoto
+join cursos as c
+on a.id_curso = c.idcurso
+order by g.nome;
+
+
+insert into livraria (nome_do_livro,	nome_do_autor, sexo_do_autor, numero_de_paginas, nome_da_editora, valor_do_livro, uf_editora, ano_publicacao) values
+('Cavaleiro Real',	'Ana Claudia', 'Feminino',	'465',	'Atlas',	'49.9',	'RJ',	'2009'),
+('SQL para leigos',	'João Nunes',	'Masculino',	450	,'Addison',	'98'	,'SP',	'2018'),
+('Receitas Caseiras',	'Celia Tavares',	'Feminino',	'210',	'Atlas',	'45','RJ','2008'),
+('Pessoas Efetivas'	,'Eduardo Santos'	,'Masculino',	'390'	,'Beta'	,'78.99'	,'RJ'	,'2018'),
+('Habitos Saudáveis',	'Eduardo Santos',	'Masculino',	'630'	,'Beta',	'150.98',	'RJ',	'2019'),
+('A Casa Marrom','Hermes Macedo',	'Masculino',	'250'	,'Bubba','60','MG',	'2016'),
+('Estacio Querido',	'Geraldo Francisco',	'Masculino',	'310'	,'Insignia',	100,	'ES'	,'2015'),
+('Pra sempre amigas',	'Leda Silva',	'Feminino'	,'510',	'Insignia',	'78.98',	'ES'	,'2011'),
+('Copas Inesqueciveis'	,'Marco Alcantara',	'Masculino',	'200',	'Larson',	130.98	,'RS'	,'2018'),
+('O poder da mente'	,'Clara Mafra',	'Feminino',	'120',	'Continental'	,'56.58',	'SP'	,'2017');
+
+drop table livraria;
+create table livraria(
+	 nome_do_livro varchar(40),
+	 nome_do_autor varchar(40),
+	 sexo_do_autor enum('Masculino','Feminino'),
+	 numero_de_paginas smallint,
+	 nome_da_editora varchar(40),
+	 valor_do_livro float,
+	 uf_editora char(2),
+	 ano_publicacao year
+);
+select * from livraria
+group by sexo_do_autor;
+truncate table livraria;
+desc pessoas;
+select * from pessoas order by profi limit 900000;
+insert into pessoas (idpessoas,cpf, nome,profi,nasc,sexo,peso,alt) values (null,'12345678902','nome6 sobrenome9','prof5','2073-09-17','F',54.89,2.18);
+delete from pessoas where idpessoas is null;
+
+show tables;
+desc gafanhotos;
+select gafanhotos.nome, cursos.nome from gafanhotos inner join cursos
+on cursos.idcurso = gafanhotos.cursopreferido;
+
+select * from cliente,endereco;
+
+
+
+
+
+
+
+
