@@ -1,0 +1,6 @@
+nome da instância:SQLEXPRESS
+adms do sql:LAPTOP-8OA6M7J2\luisg
+
+
+
+Server=localhost\SQLEXPRESS;Database=master;Trusted_Connection=True;
